@@ -298,8 +298,8 @@
                 </div>
             </div>
 
-            <!-- 向下滚动提示 -->
-            <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-slate-400 text-xs flex flex-col items-center animate-pulse-slow font-medium">
+            <!-- 向下滚动提示（修改：取消绝对定位，增加上边距，防止在小屏幕上与卡片重叠） -->
+            <div class="mt-12 text-slate-400 text-xs flex flex-col items-center animate-pulse-slow font-medium relative z-10">
                 <span class="mb-2">向下滑动领取外挂</span>
                 <i class="ph ph-caret-double-down text-lg"></i>
             </div>
@@ -308,8 +308,8 @@
         <!-- 痛点与解决对撞 Section (高频场景大换血) -->
         <section class="px-6 py-12 relative">
             <h2 class="text-2xl font-black text-center mb-10 text-slate-800" data-aos="fade-up">
-                那些把你逼疯的琐事<br>
-                <span class="text-gradient-cool text-lg">现在只需“一秒搞定”</span>
+                繁杂琐碎的案头工作<br>
+                <span class="text-gradient-cool text-lg">现在有了更聪明的解法</span>
             </h2>
 
             <div class="space-y-6">
@@ -355,10 +355,10 @@
                         </div>
                         <div>
                             <h3 class="text-lg font-bold mb-2 text-slate-800">成绩分析太头秃？一键生成报告！</h3>
-                            <p class="text-xs text-slate-500 mb-3">每次大考后的失分率统计、拉差补缺名单排到眼花？</p>
+                            <p class="text-xs text-slate-500 mb-3">每次大考后看着密密麻麻的成绩单，不知道如何深度挖掘数据背后的学情真相？</p>
                             <div class="bg-amber-50/80 p-3 rounded-xl border border-amber-100">
                                 <span class="text-amber-600 font-bold text-sm">💡 AI 魔法：</span>
-                                <span class="text-slate-600 text-sm">丢进成绩表格，3秒钟自动生成包含失分雷达图、学情诊断与个性化辅导建议的深度分析报告！</span>
+                                <span class="text-slate-600 text-sm">丢进成绩表格，3秒钟自动穿透数据，生成包含失分雷达图、薄弱知识点诊断与个性化辅导建议的深度分析报告！</span>
                             </div>
                         </div>
                     </div>
