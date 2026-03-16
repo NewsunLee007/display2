@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>瑞安新纪元 · 2026“不内耗”AI集训营</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- AOS Animation CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        techLight: '#f8fafc',
+                        brandAccent: '#ff4b2b',
+                    },
+                    animation: {
+                        'float': 'float 3s ease-in-out infinite',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'gradient-x': 'gradient-x 3s ease infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        'gradient-x': {
+                            '0%, 100%': {
+                                'background-size': '200% 200%',
+                                'background-position': 'left center'
+                            },
+                            '50%': {
+                                'background-size': '200% 200%',
+                                'background-position': 'right center'
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #f1f5f9;
+            color: #334155;
+            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        /* 隐藏滚动条但保留滚动功能 */
+        ::-webkit-scrollbar { display: none; }
+        
+        /* 全新：亮色多巴胺毛玻璃质感 */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+            border-right: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 1.5rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06), inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease;
+        }
+
+        /* 玻璃扫光反光效果 (适配亮色) */
+        .glass-panel::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 50%; height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.8), transparent);
+            transform: skewX(-20deg);
+            transition: 0.6s;
+            pointer-events: none;
+            z-index: 10;
+        }
+        .glass-panel:hover::before, .glass-panel:active::before {
+            left: 200%;
+        }
+
+        /* 核心：极其解压的果冻Q弹互动效果 */
+        .glass-panel:active, button:active, .jelly-element:active {
+            transform: scale(0.92) translateY(4px) !important;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.04) !important;
+        }
+        
+        button {
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease;
+        }
+
+        /* 活力的文字渐变 */
+        .text-gradient {
+            background: linear-gradient(135deg, #FF416C, #FF4B2B, #f59e0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .text-gradient-cool {
+            background: linear-gradient(135deg, #00c6ff, #0072ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* 亮色网格背景 */
+        .bg-grid {
+            background-image: linear-gradient(to right, rgba(0,0,0,0.03) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(0,0,0,0.03) 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+
+        /* 超炫酷呼吸按钮 */
+        .glow-btn {
+            background: linear-gradient(45deg, #FF416C, #FF4B2B, #FF416C);
+            background-size: 200% 200%;
+            animation: gradient-x 3s ease infinite;
+            box-shadow: 0 10px 25px rgba(255, 65, 108, 0.4);
+            border: none;
+        }
+        .glow-btn:active {
+            transform: scale(0.92);
+            box-shadow: 0 5px 15px rgba(255, 65, 108, 0.3);
+        }
+
+        /* 动态光球动画 - 更活泼的跳动 */
+        @keyframes blob-bounce {
+            0%, 100% { transform: translateY(0) scale(1) rotate(0deg); }
+            50% { transform: translateY(-30px) scale(1.1) rotate(10deg); }
+        }
+        .animate-blob {
+            animation: blob-bounce 8s infinite alternate cubic-bezier(0.45, 0.05, 0.55, 0.95);
+        }
+
+        /* 转盘相关 CSS */
+        .wheel-container {
+            position: relative;
+            width: 280px;
+            height: 280px;
+            margin: 0 auto;
+        }
+        .wheel-bg {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08), inset 0 0 30px rgba(255,255,255,0.8);
+            transition: transform 4s cubic-bezier(0.175, 0.885, 0.12, 1.05); /* 顺滑的旋转动画 */
+            position: relative;
+            z-index: 10;
+            /* 极简科技风分割线 */
+            background-image: repeating-conic-gradient(
+                from 0deg,
+                transparent 0deg 59.5deg,
+                rgba(255,255,255,0.8) 59.5deg 60deg
+            );
+        }
+        .wheel-bg.spinning {
+            box-shadow: 0 0 40px rgba(56, 189, 248, 0.4), inset 0 0 30px rgba(255,255,255,0.9);
+        }
+        .wheel-pointer {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 40px;
+            background: linear-gradient(135deg, #FF416C, #FF4B2B);
+            clip-path: polygon(50% 100%, 0 0, 100% 0);
+            z-index: 30;
+            filter: drop-shadow(0 4px 6px rgba(255,65,108,0.4));
+        }
+        .wheel-btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 50%;
+            z-index: 50; /* 提高层级，防止被遮挡 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 1.2rem;
+            color: #334155;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1), inset 0 0 0 4px rgba(255,255,255,0.5);
+            cursor: pointer;
+            border: 2px solid #e2e8f0;
+            backdrop-filter: blur(5px);
+            touch-action: manipulation; /* 优化移动端点击延迟 */
+        }
+        .wheel-btn:active {
+            transform: translate(-50%, -50%) scale(0.9);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        }
+        .wheel-item {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            /* 固定宽高并使用负边距绝对居中 */
+            width: 50px;
+            height: 50px;
+            margin: -25px 0 0 -25px;
+            font-size: 2.2rem;
+            color: #475569;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* 弹窗样式 */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.4);
+            backdrop-filter: blur(5px);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .modal-content {
+            transform: scale(0.8) translateY(20px);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .modal-overlay.active .modal-content {
+            transform: scale(1) translateY(0);
+        }
+    </style>
+</head>
+<body class="min-h-screen pb-24 relative overflow-x-hidden">
+    <!-- 动态交互背景光球 (多巴胺活力配色) -->
+    <div class="fixed inset-0 bg-grid pointer-events-none z-0"></div>
+    <div id="interactive-bg" class="fixed inset-0 z-0 overflow-hidden pointer-events-none transition-transform duration-300 ease-out">
+        <!-- 蜜桃粉 -->
+        <div class="absolute top-[-5%] left-[-10%] w-[60vw] h-[60vw] max-w-[400px] max-h-[400px] bg-rose-400/30 rounded-full blur-[80px] animate-blob mix-blend-multiply"></div>
+        <!-- 活力黄 -->
+        <div class="absolute top-[20%] right-[-15%] w-[50vw] h-[50vw] max-w-[350px] max-h-[350px] bg-amber-300/40 rounded-full blur-[80px] animate-blob mix-blend-multiply" style="animation-delay: 2s;"></div>
+        <!-- 治愈蓝 -->
+        <div class="absolute bottom-[5%] left-[10%] w-[50vw] h-[50vw] max-w-[350px] max-h-[350px] bg-cyan-300/30 rounded-full blur-[80px] animate-blob mix-blend-multiply" style="animation-delay: 4s;"></div>
+        <!-- 梦幻紫 -->
+        <div class="absolute bottom-[-10%] right-[10%] w-[40vw] h-[40vw] max-w-[300px] max-h-[300px] bg-violet-400/20 rounded-full blur-[80px] animate-blob mix-blend-multiply" style="animation-delay: 6s;"></div>
+    </div>
+
+    <!-- 移动端容器限制最大宽度 -->
+    <main class="max-w-md mx-auto relative z-10">
+        
+        <!-- Header / Hero Section -->
+        <header class="min-h-[85vh] flex flex-col justify-center items-center px-6 pt-10 text-center relative">
+            <div class="mb-8 animate-float jelly-element cursor-pointer w-full flex justify-center jelly-logo">
+                <div class="w-28 h-28 bg-white/70 rounded-[2rem] flex items-center justify-center p-3 shadow-[0_20px_40px_rgba(0,0,0,0.08)] backdrop-blur-xl border border-white">
+                    <img src="https://p.ipic.vip/lhgb6n.png" alt="新纪元Logo" class="w-full h-full object-contain">
+                </div>
+            </div>
+            
+            <div class="inline-block px-5 py-2 rounded-full border border-rose-200 bg-rose-50 text-rose-500 text-xs font-bold mb-6 tracking-wider jelly-element cursor-pointer shadow-sm" data-aos="fade-up">
+                ✨ 新纪元教务处 · 宠粉巨献
+            </div>
+            
+            <h1 class="text-4xl md:text-5xl font-extrabold mb-5 leading-tight tracking-tight text-slate-800" data-aos="fade-up" data-aos-delay="100">
+                主打一个不内耗<br>
+                <span class="text-gradient">效率拉满，游刃有余！</span>
+            </h1>
+            
+            <p class="text-slate-500 text-sm md:text-base leading-relaxed mb-10 px-4 font-medium" data-aos="fade-up" data-aos-delay="200">
+                2026新纪元“神仙”AI集训营来啦！<br>带你掌握教研“外挂”，把精力留给真正的教育与自我提升。
+            </p>
+
+            <div class="w-full grid grid-cols-2 gap-4 px-2" data-aos="zoom-in" data-aos-delay="300">
+                <div class="glass-panel p-5 text-center bg-white/60">
+                    <div class="text-2xl font-black text-rose-500 mb-1">1h ➔ 3min</div>
+                    <div class="text-xs text-slate-500 font-medium">搞定神级备课</div>
+                </div>
+                <div class="glass-panel p-5 text-center bg-white/60">
+                    <div class="text-2xl font-black text-blue-500 mb-1">有手就行</div>
+                    <div class="text-xs text-slate-500 font-medium">0代码基础轻松上手</div>
+                </div>
+            </div>
+
+            <!-- 向下滚动提示 -->
+            <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-slate-400 text-xs flex flex-col items-center animate-pulse-slow font-medium">
+                <span class="mb-2">向下滑动领取外挂</span>
+                <i class="ph ph-caret-double-down text-lg"></i>
+            </div>
+        </header>
+
+        <!-- 痛点与解决对撞 Section (高频场景大换血) -->
+        <section class="px-6 py-12 relative">
+            <h2 class="text-2xl font-black text-center mb-10 text-slate-800" data-aos="fade-up">
+                那些把你逼疯的琐事<br>
+                <span class="text-gradient-cool text-lg">现在只需“一秒搞定”</span>
+            </h2>
+
+            <div class="space-y-6">
+                <!-- 场景 1: 教案 -->
+                <div class="glass-panel p-6 relative overflow-hidden group" data-aos="fade-up">
+                    <div class="flex items-start gap-4 relative z-10">
+                        <div class="w-14 h-14 rounded-2xl bg-blue-100 flex items-center justify-center flex-shrink-0 text-blue-500 shadow-inner">
+                            <i class="ph-duotone ph-presentation-chart text-3xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold mb-2 text-slate-800">爆肝熬夜写教案？大可不必！</h3>
+                            <p class="text-xs text-slate-500 mb-3">还在死磕公开课详案和到处找素材排版？</p>
+                            <div class="bg-blue-50/80 p-3 rounded-xl border border-blue-100">
+                                <span class="text-blue-600 font-bold text-sm">💡 AI 魔法：</span>
+                                <span class="text-slate-600 text-sm">输入课题，5秒吐出包含互动环节的完整教学设计，还能一键生成精美PPT大纲！</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 场景 2: 换成【分层作业/命题】 高频痛点 -->
+                <div class="glass-panel p-6 relative overflow-hidden group" data-aos="fade-up" data-aos-delay="100">
+                    <div class="flex items-start gap-4 relative z-10">
+                        <div class="w-14 h-14 rounded-2xl bg-emerald-100 flex items-center justify-center flex-shrink-0 text-emerald-500 shadow-inner">
+                            <i class="ph-duotone ph-stack text-3xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold mb-2 text-slate-800">众口难调？分层作业一键生成！</h3>
+                            <p class="text-xs text-slate-500 mb-3">班里学情复杂，统一布置作业两头不讨好？</p>
+                            <div class="bg-emerald-50/80 p-3 rounded-xl border border-emerald-100">
+                                <span class="text-emerald-600 font-bold text-sm">💡 AI 魔法：</span>
+                                <span class="text-slate-600 text-sm">扔进一段英语阅读，瞬间生成“基础词汇巩固”、“长难句翻译”、“拔高拓展写作”三套A/B/C不同难度的练习题！</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 场景 3: 换成【活动方案/总结】 结合教务处身份自黑 -->
+                <div class="glass-panel p-6 relative overflow-hidden group" data-aos="fade-up" data-aos-delay="200">
+                    <div class="flex items-start gap-4 relative z-10">
+                        <div class="w-14 h-14 rounded-2xl bg-amber-100 flex items-center justify-center flex-shrink-0 text-amber-500 shadow-inner">
+                            <i class="ph-duotone ph-chart-line-up text-3xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold mb-2 text-slate-800">成绩分析太头秃？一键生成报告！</h3>
+                            <p class="text-xs text-slate-500 mb-3">每次大考后的失分率统计、拉差补缺名单排到眼花？</p>
+                            <div class="bg-amber-50/80 p-3 rounded-xl border border-amber-100">
+                                <span class="text-amber-600 font-bold text-sm">💡 AI 魔法：</span>
+                                <span class="text-slate-600 text-sm">丢进成绩表格，3秒钟自动生成包含失分雷达图、学情诊断与个性化辅导建议的深度分析报告！</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 集训营内容 Section -->
+        <section class="px-6 py-12 relative mt-8">
+            <h2 class="text-2xl font-black text-center mb-8 text-slate-800" data-aos="fade-up">
+                我们在集训营“玩”什么？
+            </h2>
+            
+            <div class="grid grid-cols-2 gap-4">
+                <!-- 特色 1 -->
+                <div class="glass-panel p-5 text-center flex flex-col items-center justify-center aspect-square" data-aos="zoom-in" data-aos-delay="0">
+                    <div class="w-12 h-12 bg-rose-100 rounded-full flex items-center justify-center mb-3">
+                        <i class="ph-fill ph-rocket-launch text-2xl text-rose-500"></i>
+                    </div>
+                    <h4 class="font-bold text-sm mb-1 text-slate-800">免费薅羊毛</h4>
+                    <p class="text-[10px] text-slate-500 leading-tight">校内直连顶尖大模型<br>无需翻墙白嫖最强算力</p>
+                </div>
+                
+                <!-- 特色 2 -->
+                <div class="glass-panel p-5 text-center flex flex-col items-center justify-center aspect-square" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-3">
+                        <i class="ph-fill ph-magic-wand text-2xl text-blue-500"></i>
+                    </div>
+                    <h4 class="font-bold text-sm mb-1 text-slate-800">神级“咒语”库</h4>
+                    <p class="text-[10px] text-slate-500 leading-tight">整理好的“喂饭级”指令<br>各学科直接复制粘贴</p>
+                </div>
+
+                <!-- 特色 3 -->
+                <div class="glass-panel p-5 text-center flex flex-col items-center justify-center aspect-square" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center mb-3">
+                        <i class="ph-fill ph-users-three text-2xl text-emerald-500"></i>
+                    </div>
+                    <h4 class="font-bold text-sm mb-1 text-slate-800">拒绝画大饼</h4>
+                    <p class="text-[10px] text-slate-500 leading-tight">不讲虚头巴脑的理论<br>带上任务我们当场解决</p>
+                </div>
+
+                <!-- 特色 4 -->
+                <div class="glass-panel p-5 text-center flex flex-col items-center justify-center aspect-square" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center mb-3">
+                        <i class="ph-fill ph-medal text-2xl text-amber-500"></i>
+                    </div>
+                    <h4 class="font-bold text-sm mb-1 text-slate-800">职场Buff叠满</h4>
+                    <p class="text-[10px] text-slate-500 leading-tight">结业颁发先锋认证<br>评职称报课题加分利器</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 新增：趣味互动大转盘 Section -->
+        <section class="px-6 py-12 relative mt-4 mb-8 overflow-visible" data-aos="fade-up">
+            <h2 class="text-2xl font-black text-center mb-2 text-slate-800">
+                🎁 测一测你的专属外挂
+            </h2>
+            <p class="text-xs text-slate-500 text-center mb-10 font-medium">点击中心 GO，抽取你的“本命 AI 技能”</p>
+            
+            <div class="wheel-container">
+                <div class="wheel-pointer"></div>
+                <!-- 转盘本体 -->
+                <div class="wheel-bg" id="wheelBg">
+                    <!-- 摆放6个高级Icon作为转盘内容，修复 translateY 居中距离 -->
+                    <div class="wheel-item" style="transform: rotate(30deg) translateY(-90px) rotate(-30deg);"><i class="ph-duotone ph-presentation-chart"></i></div>
+                    <div class="wheel-item" style="transform: rotate(90deg) translateY(-90px) rotate(-90deg);"><i class="ph-duotone ph-chat-teardrop-text"></i></div>
+                    <div class="wheel-item" style="transform: rotate(150deg) translateY(-90px) rotate(-150deg);"><i class="ph-duotone ph-chart-polar"></i></div>
+                    <div class="wheel-item" style="transform: rotate(210deg) translateY(-90px) rotate(-210deg);"><i class="ph-duotone ph-exam"></i></div>
+                    <div class="wheel-item" style="transform: rotate(270deg) translateY(-90px) rotate(-270deg);"><i class="ph-duotone ph-file-doc"></i></div>
+                    <div class="wheel-item" style="transform: rotate(330deg) translateY(-90px) rotate(-330deg);"><i class="ph-duotone ph-lightbulb"></i></div>
+                </div>
+                <!-- 抽奖按钮调整层级结构，置于最上层 -->
+                <button class="wheel-btn flex items-center justify-center" onclick="spinWheel()" id="spinBtn">
+                    GO!
+                </button>
+            </div>
+        </section>
+
+        <!-- 讲师/教务处致辞 (增加情感共鸣) -->
+        <section class="px-6 py-6 mb-10" data-aos="fade-up">
+            <div class="glass-panel p-6 relative bg-white/80">
+                <i class="ph-fill ph-quotes text-5xl text-rose-500/10 absolute top-2 left-2"></i>
+                <div class="relative z-10 pl-4 pt-2">
+                    <p class="text-sm text-slate-600 leading-relaxed mb-6 font-medium">
+                        "天天喊提效，不如真给工具！作为教务处，我们深知大家被繁琐表格与材料排版支配的疲惫。<br><br>这次集训营，咱们不搞虚的，纯粹给大家发‘外挂’。掌握AI，把常规案头工作的机械消耗省下来，让我们在快节奏的校园里多一份从容，把好钢用在刀刃上。这才是技术带给教育者真正的温度！"
+                    </p>
+                    <div class="flex items-center gap-3 border-t border-slate-200 pt-4">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-rose-400 to-orange-400 flex items-center justify-center text-white font-bold shadow-md">
+                            教务
+                        </div>
+                        <div>
+                            <div class="text-sm font-bold text-slate-800">集训营主理人</div>
+                            <div class="text-xs text-slate-500">懂你的新纪元教务处</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- 盲盒开奖弹窗 -->
+    <div class="modal-overlay" id="resultModal">
+        <div class="modal-content w-[85%] max-w-sm glass-panel p-6 bg-white/95 text-center relative">
+            <button class="absolute top-3 right-4 text-slate-400 hover:text-slate-600 font-bold text-xl" onclick="closeModal()">×</button>
+            <div id="modalIcon" class="text-6xl text-sky-500 mb-4 mt-2 animate-bounce"></div>
+            <h3 class="text-xl font-black text-rose-500 mb-2" id="modalTitle">抽中技能</h3>
+            <div class="bg-slate-50 p-4 rounded-xl border border-slate-100 text-left mb-4 shadow-inner">
+                <p class="text-sm text-slate-600 font-medium" id="modalDesc">技能描述</p>
+            </div>
+            <!-- 修改：改为关闭弹窗的按钮，文案更解压 -->
+            <button class="w-full bg-slate-800 text-white py-3 rounded-xl font-bold hover:bg-slate-700 transition shadow-lg" onclick="closeModal()">
+                美滋滋，期待集训营解锁！
+            </button>
+        </div>
+    </div>
+
+    <!-- 底部悬浮报名按钮 -->
+    <div class="fixed bottom-0 left-0 right-0 p-4 z-50 bg-gradient-to-t from-white/90 via-white/80 to-transparent flex justify-center backdrop-blur-md">
+        <div class="max-w-md w-full flex gap-3">
+            <button class="bg-white text-slate-700 flex-1 py-3.5 rounded-2xl font-bold border border-slate-200 hover:bg-slate-50 transition flex items-center justify-center gap-2 text-sm shadow-[0_4px_10px_rgba(0,0,0,0.05)]" onclick="alert('独乐乐不如众乐乐，快发给办公室的饭搭子！')">
+                <i class="ph-bold ph-share-network text-lg"></i> 滴滴同事
+            </button>
+            <!-- 报名主按钮保持原样，接入金山表单 -->
+            <button class="text-white flex-[2] py-3.5 rounded-2xl font-bold glow-btn flex items-center justify-center gap-2 text-sm" onclick="window.location.href='https://f.wps.cn/g/vC1JkVOX/'">
+                <i class="ph-fill ph-pencil-simple text-lg"></i> 立即填写报名表
+            </button>
+        </div>
+    </div>
+
+    <!-- AOS Animation Script -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <!-- Vanilla Tilt JS (增加3D交互感) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
+    <script>
+        // 初始化Vanilla Tilt赋予卡片和Logo 3D玻璃质感，支持手机陀螺仪
+        VanillaTilt.init(document.querySelectorAll(".glass-panel, .jelly-logo"), {
+            max: 8, 
+            speed: 400,
+            glare: true,
+            "max-glare": 0.3,
+            scale: 1.02,
+            gyroscope: true
+        });
+
+        // 交互式背景：监听鼠标和触控移动，产生空间视差感
+        const bg = document.getElementById('interactive-bg');
+        const handleMove = (x, y) => {
+            const moveX = (x / window.innerWidth - 0.5) * 30;
+            const moveY = (y / window.innerHeight - 0.5) * 30;
+            bg.style.transform = `translate(${moveX}px, ${moveY}px)`;
+        };
+        
+        document.addEventListener('mousemove', (e) => handleMove(e.clientX, e.clientY));
+        document.addEventListener('touchmove', (e) => {
+            if(e.touches.length > 0) {
+                handleMove(e.touches[0].clientX, e.touches[0].clientY);
+            }
+        });
+
+        // ================= 转盘抽奖逻辑 =================
+        const rewards = [
+            { icon: '<i class="ph-duotone ph-presentation-chart"></i>', title: '【一秒PPT大师】', desc: '只要扔进一篇文章或提纲，AI瞬间帮你排版出图文并茂的公开课PPT。' },
+            { icon: '<i class="ph-duotone ph-lightbulb"></i>', title: '【教研课题水套话】', desc: '课题申报不知道怎么写“研究背景与意义”？AI瞬间帮你生成高大上的学术黑话。' },
+            { icon: '<i class="ph-duotone ph-chat-teardrop-text"></i>', title: '【搞定暴躁家长】', desc: '遇到不讲理的家长？让AI化身谈判专家，帮你拟定情商拉满的微信沟通回复！' },
+            { icon: '<i class="ph-duotone ph-exam"></i>', title: '【英语出卷模拟器】', desc: '根据瑞安市历年中考真题风格，一键生成完形填空和阅读理解，告别到处扒题！' },
+            { icon: '<i class="ph-duotone ph-chart-polar"></i>', title: '【数据分析王者】', desc: '期中考试成绩单丢进去，3秒钟自动生成详细的班级学情分析报告和失分雷达图。' },
+            { icon: '<i class="ph-duotone ph-file-doc"></i>', title: '【家长会洗脑稿】', desc: '家长会不知道讲什么？AI帮你生成自带“悬念”和“催泪”效果的演讲稿！' }
+        ];
+
+        let currentRotation = 0;
+        let isSpinning = false;
+
+        function spinWheel() {
+            if(isSpinning) return;
+            isSpinning = true;
+            
+            const wheel = document.getElementById('wheelBg');
+            const btn = document.getElementById('spinBtn');
+            btn.style.opacity = '0.5';
+            
+            // 基础旋转圈数 (5圈) + 随机角度
+            const randomDegree = Math.floor(Math.random() * 360);
+            currentRotation += (360 * 5) + randomDegree; 
+            
+            wheel.classList.add('spinning');
+            wheel.style.transform = `rotate(${currentRotation}deg)`;
+            
+            // 计算指针停在哪一个区域 (每个区域60度)
+            // 注意：视觉上的指针在正上方(0度)，计算时需要逆向推算
+            setTimeout(() => {
+                isSpinning = false;
+                btn.style.opacity = '1';
+                
+                // 计算当前实际停留在最上方的角度 (取模)
+                const actualDegree = currentRotation % 360;
+                // 转盘是顺时针转，所以正上方指向的奖品要反着算
+                const index = Math.floor((360 - actualDegree + 30) % 360 / 60);
+                
+                wheel.classList.remove('spinning');
+                showModal(rewards[index]);
+            }, 4000); // 必须与CSS的transition时间一致
+        }
+
+        function showModal(reward) {
+            document.getElementById('modalIcon').innerHTML = reward.icon;
+            document.getElementById('modalTitle').innerText = reward.title;
+            document.getElementById('modalDesc').innerText = reward.desc;
+            document.getElementById('resultModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('resultModal').classList.remove('active');
+        }
+
+        // 初始化滚动动画
+        AOS.init({
+            duration: 800, 
+            once: false,    
+            offset: 50     
+        });
+    </script>
+</body>
+</html>
